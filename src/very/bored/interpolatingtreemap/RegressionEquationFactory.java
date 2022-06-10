@@ -3,6 +3,7 @@ package very.bored.interpolatingtreemap;
 import very.bored.regressionfactories.LinRegEquationFactory;
 import very.bored.regressionfactories.QuadRegEquationFactory;
 
+import java.util.Map;
 import java.util.Optional;
 import java.util.TreeMap;
 import java.util.function.Function;
@@ -43,7 +44,7 @@ public interface RegressionEquationFactory {
      * @param dataPoints The data to use to create the regression equation
      * @return The regression equation function
      */
-    Function<Double, Double> equationFrom(TreeMap<Double, Double> dataPoints);
+    Function<Double, Double> equationFrom(Map<Double, Double> dataPoints);
 
     /**
      * Returns the coefficient of determination (R²) for the given data. The coefficient of determination
@@ -63,7 +64,7 @@ public interface RegressionEquationFactory {
      * @param dataPoints The data used to calculate the coefficient of determination
      * @return The coefficient of determination
      */
-    double getCoefficientOfDetermination(TreeMap<Double, Double> dataPoints);
+    double getCoefficientOfDetermination(Map<Double, Double> dataPoints);
 
     /**
      * Returns the regression equation in the form of a string. Implementations are encouraged to
@@ -74,7 +75,7 @@ public interface RegressionEquationFactory {
      * @param dataPoints The data used to create the regression equation
      * @return The regression equation in the form of a string
      */
-    String equationAsString(TreeMap<Double, Double> dataPoints);
+    String equationAsString(Map<Double, Double> dataPoints);
 
     /**
      * Returns the minimum number of data points required to create a regression equation.

@@ -2,6 +2,7 @@ package very.bored.regressionfactories;
 
 import very.bored.interpolatingtreemap.RegressionEquationFactory;
 
+import java.util.Map;
 import java.util.Optional;
 import java.util.TreeMap;
 import java.util.function.Function;
@@ -10,7 +11,7 @@ public class QuadRegEquationFactory implements RegressionEquationFactory {
     private String equation;
 
     @Override
-    public Function<Double, Double> equationFrom(TreeMap<Double, Double> dataPoints) {
+    public Function<Double, Double> equationFrom(Map<Double, Double> dataPoints) {
         ABC abc = ABC.from(dataPoints);
 
         equation = String.format("f(x) = %.5f + %.5fx + %.5fx^2", abc.a, abc.b, abc.c);
@@ -19,7 +20,7 @@ public class QuadRegEquationFactory implements RegressionEquationFactory {
     }
 
     @Override
-    public double getCoefficientOfDetermination(TreeMap<Double, Double> dataPoints) {
+    public double getCoefficientOfDetermination(Map<Double, Double> dataPoints) {
         double SSE = calcSSE(dataPoints);
         double SST = calcSST(dataPoints);
 
@@ -27,7 +28,7 @@ public class QuadRegEquationFactory implements RegressionEquationFactory {
     }
 
     private record ABC(double a, double b, double c) {
-        public static ABC from(TreeMap<Double, Double> dataPoints) {
+        public static ABC from(Map<Double, Double> dataPoints) {
             AvgX2XY.invalidateCache();
 
             double SSxx = calcSSxx(dataPoints);
@@ -45,7 +46,7 @@ public class QuadRegEquationFactory implements RegressionEquationFactory {
         }
     }
 
-    private static double calcSSxx(TreeMap<Double, Double> map) {
+    private static double calcSSxx(Map<Double, Double> map) {
         AvgX2XY means = AvgX2XY.from(map);
 
         double SSxx = 0.0;
@@ -56,7 +57,7 @@ public class QuadRegEquationFactory implements RegressionEquationFactory {
         return SSxx;
     }
 
-    private static double calcSSxy(TreeMap<Double, Double> map) {
+    private static double calcSSxy(Map<Double, Double> map) {
         AvgX2XY means = AvgX2XY.from(map);
 
         double SSxy = 0;
@@ -67,7 +68,7 @@ public class QuadRegEquationFactory implements RegressionEquationFactory {
         return SSxy;
     }
 
-    private static double calcSSxx2(TreeMap<Double, Double> map) {
+    private static double calcSSxx2(Map<Double, Double> map) {
         AvgX2XY means = AvgX2XY.from(map);
 
         double SSxx2 = 0;
@@ -78,7 +79,7 @@ public class QuadRegEquationFactory implements RegressionEquationFactory {
         return SSxx2;
     }
 
-    private static double calcSSx2x2(TreeMap<Double, Double> map) {
+    private static double calcSSx2x2(Map<Double, Double> map) {
         AvgX2XY means = AvgX2XY.from(map);
 
         double SSx2x2 = 0;
@@ -89,7 +90,7 @@ public class QuadRegEquationFactory implements RegressionEquationFactory {
         return SSx2x2;
     }
 
-    private static double calcSSx2y(TreeMap<Double, Double> map) {
+    private static double calcSSx2y(Map<Double, Double> map) {
         AvgX2XY means = AvgX2XY.from(map);
 
         double SSx2y = 0;
@@ -100,7 +101,7 @@ public class QuadRegEquationFactory implements RegressionEquationFactory {
         return SSx2y;
     }
 
-    private double calcSSE(TreeMap<Double, Double> dataPoints) {
+    private double calcSSE(Map<Double, Double> dataPoints) {
         ABC abc = ABC.from(dataPoints);
 
         double SSE = 0;
@@ -111,7 +112,7 @@ public class QuadRegEquationFactory implements RegressionEquationFactory {
         return SSE;
     }
 
-    private double calcSST(TreeMap<Double, Double> dataPoints) {
+    private double calcSST(Map<Double, Double> dataPoints) {
         AvgX2XY means = AvgX2XY.from(dataPoints);
 
         double SST = 0;
@@ -130,7 +131,7 @@ public class QuadRegEquationFactory implements RegressionEquationFactory {
             cache = null;
         }
 
-        static AvgX2XY from(TreeMap<Double, Double> map) {
+        static AvgX2XY from(Map<Double, Double> map) {
             if (cache != null) {
                 return cache;
             }
@@ -148,7 +149,7 @@ public class QuadRegEquationFactory implements RegressionEquationFactory {
     }
 
     @Override
-    public String equationAsString(TreeMap<Double, Double> dataPoints) {
+    public String equationAsString(Map<Double, Double> dataPoints) {
         return equation;
     }
 
